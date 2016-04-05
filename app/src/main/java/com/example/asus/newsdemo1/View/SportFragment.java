@@ -16,15 +16,13 @@ import android.widget.Toast;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
-import com.example.asus.newsdemo1.Activities.Head_Click_View;
-import com.example.asus.newsdemo1.Activities.MainActivity;
+import com.example.asus.newsdemo1.Activities.Image_Clicked_Aty;
 import com.example.asus.newsdemo1.Http.Retrofit.RetrofitClient;
 import com.example.asus.newsdemo1.Model.NewsSummary;
 import com.example.asus.newsdemo1.Presenter.MyBannerViewholder;
 import com.example.asus.newsdemo1.Presenter.RecyclerHeadlineAdapter;
 import com.example.asus.newsdemo1.R;
 import com.example.asus.newsdemo1.Utils.SimpleUtils;
-import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,7 +122,7 @@ public class SportFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                     public void onItemClick(int position) {
                         String title = newsHeadList.get(position).title;
                         String imgUri = newsHeadList.get(position).imgsrc;
-                        Intent intent = new Intent(getContext(), Head_Click_View.class);
+                        Intent intent = new Intent(getContext(), Image_Clicked_Aty.class);
                         intent.putExtra("imgUri", imgUri);
                         intent.putExtra("HeadTitle", title);
                         startActivity(intent);

@@ -7,11 +7,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -49,6 +50,10 @@ public class NewsDetailAty extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolBarNewsDetail);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         textViewTitle = (TextView) findViewById(R.id.textViewDetailTitle);
         textViewContent = (TextView) findViewById(R.id.textViewDetailContent);
         postId = getIntent().getStringExtra("postId");
@@ -124,7 +129,7 @@ public class NewsDetailAty extends AppCompatActivity {
             simpleDraweeView1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(applicationContext, Head_Click_View.class);
+                    Intent intent = new Intent(applicationContext, Image_Clicked_Aty.class);
                     intent.putExtra("imgUri", imgs.get(index).src);
                     intent.putExtra("HeadTitle", title);
                     startActivity(intent);
@@ -134,5 +139,14 @@ public class NewsDetailAty extends AppCompatActivity {
             simpleDraweeViews[i] = simpleDraweeView1;
         }
         return simpleDraweeViews;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

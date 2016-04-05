@@ -28,5 +28,5 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.0.1'
     compile 'com.facebook.fresco:fresco:0.8.1'
     compile 'com.bigkoo:convenientbanner:2.0.5'
-
+    compile 'com.commit451:PhotoView:1.2.5'
 }
