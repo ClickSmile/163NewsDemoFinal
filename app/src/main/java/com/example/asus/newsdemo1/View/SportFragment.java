@@ -3,7 +3,6 @@ package com.example.asus.newsdemo1.View;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,10 +17,11 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.example.asus.newsdemo1.Activities.Head_Click_View;
-import com.example.asus.newsdemo1.Presenter.RecyclerHeadlineAdapter;
+import com.example.asus.newsdemo1.Activities.MainActivity;
 import com.example.asus.newsdemo1.Http.Retrofit.RetrofitClient;
 import com.example.asus.newsdemo1.Model.NewsSummary;
 import com.example.asus.newsdemo1.Presenter.MyBannerViewholder;
+import com.example.asus.newsdemo1.Presenter.RecyclerHeadlineAdapter;
 import com.example.asus.newsdemo1.R;
 import com.example.asus.newsdemo1.Utils.SimpleUtils;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -35,10 +35,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by codekk on 2016/4/4.
+ * Created by codekk on 2016/4/5.
  * Email:  645326280@qq.com
  */
-public class HeadlineFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class SportFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private ConvenientBanner<String> convenientBanner;
     private List<NewsSummary> newsSummaries;
     private RecyclerHeadlineAdapter adapter;
@@ -47,11 +47,10 @@ public class HeadlineFragment extends Fragment implements SwipeRefreshLayout.OnR
     List<NewsSummary.AdsEntity> newsHeadList;    //首页新闻水平轮换图
     private List<String> simpleDraweeViews;
     private SwipeRefreshLayout swipeRefreshLayout;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_headline, container, false);
+        View view=inflater.inflate(R.layout.fragment_headline,container,false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewHeadlineContent);
         convenientBanner = (ConvenientBanner<String>) view.findViewById(R.id.convenientBannerHeadlineContent);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshHeadline);
@@ -69,7 +68,7 @@ public class HeadlineFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     private void News1() {
-        final Call<Map<String, List<NewsSummary>>> newsList = RetrofitClient.getService().getNewsList("headline", "T1348647909107", 0);
+        Call<Map<String, List<NewsSummary>>> newsList = RetrofitClient.getService().getNewsList("list", "T1348649079062", 0);
         newsList.enqueue(new Callback<Map<String, List<NewsSummary>>>() {
             @Override
             public void onResponse(Call<Map<String, List<NewsSummary>>> call, Response<Map<String, List<NewsSummary>>> response) {
@@ -77,17 +76,28 @@ public class HeadlineFragment extends Fragment implements SwipeRefreshLayout.OnR
                     swipeRefreshLayout.setRefreshing(false);
                     Toast.makeText(getContext(), "刷新成功", Toast.LENGTH_SHORT).show();
                 }
-                Map<String, List<NewsSummary>> body = response.body();
                 newsHeadList = new ArrayList<NewsSummary.AdsEntity>();
+                Map<String, List<NewsSummary>> body = response.body();
                 for (Map.Entry<String, List<NewsSummary>> entry : body.entrySet()) {
-                    newsSummaries = entry.getValue();
-                    newsVerticalList = SimpleUtils.makeNewsList(newsSummaries);
-                    newsHeadList = newsSummaries.get(0).ads;
+                    List<NewsSummary> value = entry.getValue();
+                    newsVerticalList = SimpleUtils.makeNewsList(value);
+                    NewsSummary newsSummary = value.get(0);
+                    newsHeadList=newsSummary.ads;
+
+                    if(newsSummary.imgextra==null || newsSummary.imgextra.isEmpty()){
+                        Log.d("KKLog", "News2 newsSummary.imgextra is null or empty!!");
+                    }
+
                     for (NewsSummary.AdsEntity a : newsHeadList) {
                         simpleDraweeViews.add(a.imgsrc);
                     }
-                    initBanner();
+
+                    for (NewsSummary.AdsEntity a : newsSummary.ads) {
+                        Log.d("KKLog", "News2 AdsEntity.title===>" + a.title);
+                        Log.d("KKLog", "News2 AdsEntity.imgSrc==>" + a.imgsrc);
+                    }
                 }
+                initBanner();
                 adapter = new RecyclerHeadlineAdapter(getContext(), newsVerticalList);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 recyclerView.setAdapter(adapter);
@@ -95,11 +105,7 @@ public class HeadlineFragment extends Fragment implements SwipeRefreshLayout.OnR
 
             @Override
             public void onFailure(Call<Map<String, List<NewsSummary>>> call, Throwable t) {
-                Log.d("KKLog", "News1 onFailure  " + t.getMessage());
-                if (swipeRefreshLayout.isRefreshing()) {
-                    swipeRefreshLayout.setRefreshing(false);
-                    Toast.makeText(getContext(), "刷新失败，也许是网络出了点问题吧！", Toast.LENGTH_SHORT).show();
-                }
+                Log.d("KKLog", "News2 onFailure "+t.getMessage());
             }
         });
     }

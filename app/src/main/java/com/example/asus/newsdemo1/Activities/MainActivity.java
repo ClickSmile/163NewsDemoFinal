@@ -15,6 +15,8 @@ import com.example.asus.newsdemo1.Presenter.ContentFragmentAdapter;
 import com.example.asus.newsdemo1.R;
 import com.example.asus.newsdemo1.View.ContentFragment;
 import com.example.asus.newsdemo1.View.HeadlineFragment;
+import com.example.asus.newsdemo1.View.SportFragment;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +26,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private TabLayout tabsLayout;
     private ViewPager viewPager;
     private HeadlineFragment fragment1;
-    private ContentFragment fragment2;
+    private SportFragment fragment2;
     private ContentFragment fragment3;
     private ContentFragment fragment4;
     private ContentFragment fragment5;
@@ -35,6 +37,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fresco.initialize(MainActivity.this);
         inits();
     }
 
@@ -57,7 +60,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     @Override
     public void bindData() {
         fragment1=new HeadlineFragment();
-        fragment2=new ContentFragment();
+        fragment2=new SportFragment();
         fragment3=new ContentFragment();
         fragment4=new ContentFragment();
         fragment5=new ContentFragment();
@@ -65,8 +68,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         fragment7=new ContentFragment();
         floatingActionButton.setOnClickListener(this);
         List<String> titles=new ArrayList<>();
-        titles.add("今日头条");
-        titles.add("第二页");
+        titles.add("头条");
+        titles.add("体育");
         titles.add("第三页");
         titles.add("第四页");
         titles.add("第五页");

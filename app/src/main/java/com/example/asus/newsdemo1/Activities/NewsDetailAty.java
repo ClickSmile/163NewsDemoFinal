@@ -19,6 +19,8 @@ import com.example.asus.newsdemo1.Http.Retrofit.RetrofitClient;
 import com.example.asus.newsdemo1.Model.NewsDetail;
 import com.example.asus.newsdemo1.R;
 import com.example.asus.newsdemo1.Utils.SimpleUtils;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -68,7 +70,7 @@ public class NewsDetailAty extends AppCompatActivity {
                     bodysList = SimpleUtils.makeDetailBodyToList(entry.getValue().body.toString());
                     textViewCount = bodysList.size();
                     if (textViewCount == 1) {  //表示原网页中没有图片
-                        TextView textView=new TextView(getApplicationContext());
+                        TextView textView = new TextView(getApplicationContext());
                         textView.setText(Html.fromHtml(entry.getValue().body.toString()));
                         textView.setTextColor(Color.BLACK);
                         textView.setTextSize(24);
@@ -109,21 +111,27 @@ public class NewsDetailAty extends AppCompatActivity {
     private SimpleDraweeView[] initImgs(final Context applicationContext) {
         SimpleDraweeView[] simpleDraweeViews = new SimpleDraweeView[imageViewCount];
         for (int i = 0; i < imageViewCount; i++) {
-            final int index=i;
+            final int index = i;
+            DraweeController draweeController =
+                    Fresco.newDraweeControllerBuilder()
+                            .setUri(Uri.parse(imgs.get(i).src))
+                            .setAutoPlayAnimations(true) // 设置加载图片完成后是否直接进行播放
+                            .build();
             SimpleDraweeView simpleDraweeView1 = new SimpleDraweeView(applicationContext);
             simpleDraweeView1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 380));
-            simpleDraweeView1.setScaleType(ImageView.ScaleType.FIT_XY);
-            simpleDraweeViews[i] = simpleDraweeView1;
+//            simpleDraweeView1.setScaleType(ImageView.ScaleType.FIT_XY);
             simpleDraweeView1.setImageURI(Uri.parse(imgs.get(i).src));
             simpleDraweeView1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(applicationContext,Head_Click_View.class);
-                    intent.putExtra("imgUri",imgs.get(index).src);
-                    intent.putExtra("HeadTitle",title);
+                    Intent intent = new Intent(applicationContext, Head_Click_View.class);
+                    intent.putExtra("imgUri", imgs.get(index).src);
+                    intent.putExtra("HeadTitle", title);
                     startActivity(intent);
                 }
             });
+            simpleDraweeView1.setController(draweeController);
+            simpleDraweeViews[i] = simpleDraweeView1;
         }
         return simpleDraweeViews;
     }

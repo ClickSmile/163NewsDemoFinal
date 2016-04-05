@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.example.asus.newsdemo1.Activities.NewsDetailAty;
 import com.example.asus.newsdemo1.Model.NewsSummary;
 import com.example.asus.newsdemo1.R;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -38,18 +40,18 @@ public class RecyclerHeadlineAdapter extends RecyclerView.Adapter<RecyclerHeadli
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-            holder.imageViewIcon.setImageURI(Uri.parse(news.get(position).imgsrc));
-            holder.textViewTitle.setText(news.get(position).title);
-            holder.textViewSubtitle.setText(news.get(position).digest);
-            holder.itemView1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, NewsDetailAty.class);
-                    intent.putExtra("postId", news.get(position).postid);
-                    intent.putExtra("title", news.get(position).title);
-                    context.startActivity(intent);
-                }
-            });
+        holder.imageViewIcon.setImageURI(Uri.parse(news.get(position).imgsrc));
+        holder.textViewTitle.setText(news.get(position).title);
+        holder.textViewSubtitle.setText(news.get(position).digest);
+        holder.itemView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, NewsDetailAty.class);
+                intent.putExtra("postId", news.get(position).postid);
+                intent.putExtra("title", news.get(position).title);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
