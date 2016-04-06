@@ -15,7 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.asus.newsdemo1.Http.Retrofit.RetrofitClient;
 import com.example.asus.newsdemo1.Model.NewsDetail;
 import com.example.asus.newsdemo1.R;
@@ -70,25 +73,30 @@ public class NewsDetailAty extends AppCompatActivity {
                 Map<String, NewsDetail> body = response.body();
                 for (Map.Entry<String, NewsDetail> entry : body.entrySet()) {
                     imgs = entry.getValue().img;
-                    imageViewCount = imgs.size();
-                    textViewTitle.setText(title);
-                    bodysList = SimpleUtils.makeDetailBodyToList(entry.getValue().body.toString());
-                    textViewCount = bodysList.size();
-                    if (textViewCount == 1) {  //表示原网页中没有图片
-                        TextView textView = new TextView(getApplicationContext());
-                        textView.setText(Html.fromHtml(entry.getValue().body.toString()));
-                        textView.setTextColor(Color.BLACK);
-                        textView.setTextSize(24);
-                        linearLayout.addView(textView);
+                    if (null == imgs || imgs.isEmpty()) {
+                        showDialog();
+
                     } else {
-                        TextView[] textViews = initTextViews(getApplicationContext());
-                        SimpleDraweeView[] simpleDraweeViews = initImgs(getApplicationContext());
-                        for (int i = 0; i < Math.min(imageViewCount, textViewCount); i++) {
-                            linearLayout.addView(textViews[i]);
-                            linearLayout.addView(simpleDraweeViews[i]);
-                        }
-                        for (int i = Math.min(imageViewCount, textViewCount); i < Math.max(imageViewCount, textViewCount); i++) {
-                            linearLayout.addView(textViews[i]);
+                        imageViewCount = imgs.size();
+                        textViewTitle.setText(title);
+                        bodysList = SimpleUtils.makeDetailBodyToList(entry.getValue().body.toString());
+                        textViewCount = bodysList.size();
+                        if (textViewCount == 1) {  //表示原网页中没有图片
+                            TextView textView = new TextView(getApplicationContext());
+                            textView.setText(Html.fromHtml(entry.getValue().body.toString()));
+                            textView.setTextColor(Color.BLACK);
+                            textView.setTextSize(24);
+                            linearLayout.addView(textView);
+                        } else {
+                            TextView[] textViews = initTextViews(getApplicationContext());
+                            SimpleDraweeView[] simpleDraweeViews = initImgs(getApplicationContext());
+                            for (int i = 0; i < Math.min(imageViewCount, textViewCount); i++) {
+                                linearLayout.addView(textViews[i]);
+                                linearLayout.addView(simpleDraweeViews[i]);
+                            }
+                            for (int i = Math.min(imageViewCount, textViewCount); i < Math.max(imageViewCount, textViewCount); i++) {
+                                linearLayout.addView(textViews[i]);
+                            }
                         }
                     }
                 }
@@ -97,6 +105,8 @@ public class NewsDetailAty extends AppCompatActivity {
             @Override
             public void onFailure(Call<Map<String, NewsDetail>> call, Throwable t) {
                 Log.d("KKLog", "NewsDetailAty onFailure===>" + t.getMessage());
+                Toast.makeText(NewsDetailAty.this, "", Toast.LENGTH_SHORT).show();
+                showDialog();
             }
         });
     }
@@ -111,6 +121,24 @@ public class NewsDetailAty extends AppCompatActivity {
             textViews[i] = textView;
         }
         return textViews;
+    }
+
+    private void showDialog(){
+        final MaterialDialog dialog = new MaterialDialog.Builder(NewsDetailAty.this)
+                .title("提示")
+                .content("当前版本不支持此种类型的新闻，敬请期待！！")
+                .positiveText("我知道了")
+                .cancelable(false)
+                .build();
+        dialog.show();
+
+        dialog.getActionButton(DialogAction.POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                onBackPressed();
+            }
+        });
     }
 
     private SimpleDraweeView[] initImgs(final Context applicationContext) {

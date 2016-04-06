@@ -72,10 +72,10 @@ public class Image_Clicked_Aty extends AppCompatActivity {
         linearLayout = (LinearLayout) findViewById(R.id.linearLayoutClickView);
         imgUri = getIntent().getStringExtra("imgUri");
         title = getIntent().getStringExtra("HeadTitle");
-        if (imgUri.endsWith(".jpg") || imgUri.endsWith(".JPG")) {
-            loadJpg();
-        } else if (imgUri.endsWith(".gif") || imgUri.endsWith(".GIF")) {
+        if (imgUri.endsWith(".gif") || imgUri.endsWith(".GIF")) {
             loadGif();
+        } else{    //有可能是jpg png 之类的都用jpg方法加载
+            loadJpg();
         }
     }
 

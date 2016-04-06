@@ -33,10 +33,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by codekk on 2016/4/5.
+ * Created by codekk on 2016/4/6.
  * Email:  645326280@qq.com
  */
-public class SportFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class ScienceFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private ConvenientBanner<String> convenientBanner;
     private List<NewsSummary> newsSummaries;
     private RecyclerHeadlineAdapter adapter;
@@ -67,7 +67,7 @@ public class SportFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     }
 
     private void News1() {
-        Call<Map<String, List<NewsSummary>>> newsList = RetrofitClient.getService().getNewsList("list", "T1348649079062", 0);
+        Call<Map<String, List<NewsSummary>>> newsList = RetrofitClient.getService().getNewsList("list", "T1348649580692", 0);
         newsList.enqueue(new Callback<Map<String, List<NewsSummary>>>() {
             @Override
             public void onResponse(Call<Map<String, List<NewsSummary>>> call, Response<Map<String, List<NewsSummary>>> response) {
@@ -82,18 +82,11 @@ public class SportFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                     newsVerticalList = SimpleUtils.makeNewsList(value);
                     NewsSummary newsSummary = value.get(0);
                     newsHeadList=newsSummary.ads;
-
                     if(newsSummary.imgextra==null || newsSummary.imgextra.isEmpty()){
                         Log.d("KKLog", "News2 newsSummary.imgextra is null or empty!!");
                     }
-
                     for (NewsSummary.AdsEntity a : newsHeadList) {
                         simpleDraweeViews.add(a.imgsrc);
-                    }
-
-                    for (NewsSummary.AdsEntity a : newsSummary.ads) {
-                        Log.d("KKLog", "News2 AdsEntity.title===>" + a.title);
-                        Log.d("KKLog", "News2 AdsEntity.imgSrc==>" + a.imgsrc);
                     }
                 }
                 initBanner();

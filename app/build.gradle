@@ -29,4 +29,5 @@ dependencies {
     compile 'com.facebook.fresco:fresco:0.8.1'
     compile 'com.bigkoo:convenientbanner:2.0.5'
     compile 'com.commit451:PhotoView:1.2.5'
+    compile 'com.robbypond:material-dialogs:1.0.0'
 }

@@ -1,5 +1,6 @@
 package com.example.asus.newsdemo1.Activities;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -11,11 +12,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import com.example.asus.newsdemo1.Base.BaseActivity;
 import com.example.asus.newsdemo1.Presenter.ContentFragmentAdapter;
 import com.example.asus.newsdemo1.R;
 import com.example.asus.newsdemo1.View.ContentFragment;
+import com.example.asus.newsdemo1.View.EntertainmentFragment;
 import com.example.asus.newsdemo1.View.HeadlineFragment;
+import com.example.asus.newsdemo1.View.JokeFragment;
+import com.example.asus.newsdemo1.View.MilitaryFragment;
+import com.example.asus.newsdemo1.View.PhoneFragment;
+import com.example.asus.newsdemo1.View.ScienceFragment;
+import com.example.asus.newsdemo1.View.SocialFragment;
 import com.example.asus.newsdemo1.View.SportFragment;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
@@ -26,13 +35,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private FloatingActionButton floatingActionButton;
     private TabLayout tabsLayout;
     private ViewPager viewPager;
-    private HeadlineFragment fragment1;
-    private SportFragment fragment2;
-    private ContentFragment fragment3;
-    private ContentFragment fragment4;
-    private ContentFragment fragment5;
-    private ContentFragment fragment6;
-    private ContentFragment fragment7;
+    private HeadlineFragment fragmentHeadline;
+    private SportFragment fragmentSport;
+    private EntertainmentFragment fragmentEntertainment;
+    private ScienceFragment fragmentScience;
+    private JokeFragment fragmentJoke;
+    private PhoneFragment fragmentPhone;
+    private SocialFragment fragmentSocial;
+    private MilitaryFragment fragmentMilitary;
+    public static ProgressDialog progressDialogLoading;
+
     private ContentFragmentAdapter fragmentAdapter;
 
     @Override
@@ -40,6 +52,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         Fresco.initialize(MainActivity.this);
         inits();
+        progressDialogLoading.setCancelable(false);
+        progressDialogLoading.show();
     }
 
     @Override
@@ -51,9 +65,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void findViews() {
-        floatingActionButton= (FloatingActionButton) this.findViewById(R.id.fab);
         tabsLayout= (TabLayout) this.findViewById(R.id.tabsLayoutContent);
         viewPager= (ViewPager) this.findViewById(R.id.viewPagerContent);
+        progressDialogLoading = new ProgressDialog(MainActivity.this);
+        Toast.makeText(MainActivity.this, "正在刷新最新新闻，请稍等...", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -62,33 +77,35 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void bindData() {
-        fragment1=new HeadlineFragment();
-        fragment2=new SportFragment();
-        fragment3=new ContentFragment();
-        fragment4=new ContentFragment();
-        fragment5=new ContentFragment();
-        fragment6=new ContentFragment();
-        fragment7=new ContentFragment();
-        floatingActionButton.setOnClickListener(this);
+        fragmentHeadline=new HeadlineFragment();
+        fragmentSport=new SportFragment();
+        fragmentEntertainment=new EntertainmentFragment();
+        fragmentScience=new ScienceFragment();
+        fragmentJoke=new JokeFragment();
+        fragmentPhone=new PhoneFragment();
+        fragmentSocial=new SocialFragment();
+        fragmentMilitary=new MilitaryFragment();
         List<String> titles=new ArrayList<>();
         titles.add("头条");
+        titles.add("娱乐");
+        titles.add("科技");
         titles.add("体育");
-        titles.add("第三页");
-        titles.add("第四页");
-        titles.add("第五页");
-        titles.add("第六页");
-        titles.add("第七页");
+        titles.add("手机");
+        titles.add("社会");
+        titles.add("军事");
+        titles.add("笑话");
         List<Fragment> fragments=new ArrayList<>();
-        fragments.add(fragment1);
-        fragments.add(fragment2);
-        fragments.add(fragment3);
-        fragments.add(fragment4);
-        fragments.add(fragment5);
-        fragments.add(fragment6);
-        fragments.add(fragment7);
+        fragments.add(fragmentHeadline);
+        fragments.add(fragmentEntertainment);
+        fragments.add(fragmentScience);
+        fragments.add(fragmentSport);
+        fragments.add(fragmentPhone);
+        fragments.add(fragmentSocial);
+        fragments.add(fragmentMilitary);
+        fragments.add(fragmentJoke);
         fragmentAdapter=new ContentFragmentAdapter(getSupportFragmentManager(),titles,fragments);
         viewPager.setAdapter(fragmentAdapter);
-        viewPager .setOffscreenPageLimit(titles.size()-1);
+        viewPager.setOffscreenPageLimit(fragments.size()-1);
         tabsLayout.setupWithViewPager(viewPager);
     }
 
@@ -107,10 +124,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.fab:
-                Snackbar.make(floatingActionButton,"FloatingButton Click",Snackbar.LENGTH_SHORT)
-                        .setAction("I Konw",null).show();
-                break;
+//
 
         }
     }

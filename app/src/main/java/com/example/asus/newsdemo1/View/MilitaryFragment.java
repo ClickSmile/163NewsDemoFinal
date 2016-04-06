@@ -1,6 +1,5 @@
 package com.example.asus.newsdemo1.View;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,12 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
-import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
-import com.bigkoo.convenientbanner.listener.OnItemClickListener;
-import com.example.asus.newsdemo1.Activities.Image_Clicked_Aty;
 import com.example.asus.newsdemo1.Http.Retrofit.RetrofitClient;
 import com.example.asus.newsdemo1.Model.NewsSummary;
-import com.example.asus.newsdemo1.Presenter.MyBannerViewholder;
 import com.example.asus.newsdemo1.Presenter.RecyclerHeadlineAdapter;
 import com.example.asus.newsdemo1.R;
 import com.example.asus.newsdemo1.Utils.SimpleUtils;
@@ -33,12 +28,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by codekk on 2016/4/5.
+ * Created by codekk on 2016/4/6.
  * Email:  645326280@qq.com
  */
-public class SportFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class MilitaryFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private ConvenientBanner<String> convenientBanner;
-    private List<NewsSummary> newsSummaries;
     private RecyclerHeadlineAdapter adapter;
     private RecyclerView recyclerView;
     private List<NewsSummary> newsVerticalList;   //首页新闻的垂直方向上的列表内容
@@ -59,6 +53,7 @@ public class SportFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        convenientBanner.setVisibility(View.GONE);
         swipeRefreshLayout.setColorSchemeResources(R.color.orange, R.color.green, R.color.blue);
         swipeRefreshLayout.setOnRefreshListener(this);
         simpleDraweeViews = new ArrayList<>();
@@ -67,7 +62,7 @@ public class SportFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     }
 
     private void News1() {
-        Call<Map<String, List<NewsSummary>>> newsList = RetrofitClient.getService().getNewsList("list", "T1348649079062", 0);
+        Call<Map<String, List<NewsSummary>>> newsList = RetrofitClient.getService().getNewsList("list", "T1348648141035", 0);
         newsList.enqueue(new Callback<Map<String, List<NewsSummary>>>() {
             @Override
             public void onResponse(Call<Map<String, List<NewsSummary>>> call, Response<Map<String, List<NewsSummary>>> response) {
@@ -82,21 +77,11 @@ public class SportFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                     newsVerticalList = SimpleUtils.makeNewsList(value);
                     NewsSummary newsSummary = value.get(0);
                     newsHeadList=newsSummary.ads;
-
                     if(newsSummary.imgextra==null || newsSummary.imgextra.isEmpty()){
                         Log.d("KKLog", "News2 newsSummary.imgextra is null or empty!!");
                     }
 
-                    for (NewsSummary.AdsEntity a : newsHeadList) {
-                        simpleDraweeViews.add(a.imgsrc);
-                    }
-
-                    for (NewsSummary.AdsEntity a : newsSummary.ads) {
-                        Log.d("KKLog", "News2 AdsEntity.title===>" + a.title);
-                        Log.d("KKLog", "News2 AdsEntity.imgSrc==>" + a.imgsrc);
-                    }
                 }
-                initBanner();
                 adapter = new RecyclerHeadlineAdapter(getContext(), newsVerticalList);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 recyclerView.setAdapter(adapter);
@@ -107,44 +92,6 @@ public class SportFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 Log.d("KKLog", "News2 onFailure "+t.getMessage());
             }
         });
-    }
-
-    private void initBanner() {
-        convenientBanner.setPages(new CBViewHolderCreator<MyBannerViewholder>() {
-            @Override
-            public MyBannerViewholder createHolder() {
-                return new MyBannerViewholder();
-            }
-        }, simpleDraweeViews)
-                .setPageIndicator(new int[]{R.drawable.ic_page_indicator, R.drawable.ic_page_indicator_focused})
-                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
-                .setOnItemClickListener(new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        String title = newsHeadList.get(position).title;
-                        String imgUri = newsHeadList.get(position).imgsrc;
-                        Intent intent = new Intent(getContext(), Image_Clicked_Aty.class);
-                        intent.putExtra("imgUri", imgUri);
-                        intent.putExtra("HeadTitle", title);
-                        startActivity(intent);
-                    }
-                });
-    }
-
-    // 开始自动翻页
-    @Override
-    public void onResume() {
-        super.onResume();
-        //开始自动翻页
-        convenientBanner.startTurning(2000);
-    }
-
-    // 停止自动翻页
-    @Override
-    public void onPause() {
-        super.onPause();
-        //停止翻页
-        convenientBanner.stopTurning();
     }
 
     @Override

@@ -17,6 +17,7 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.example.asus.newsdemo1.Activities.Image_Clicked_Aty;
+import com.example.asus.newsdemo1.Activities.MainActivity;
 import com.example.asus.newsdemo1.Presenter.RecyclerHeadlineAdapter;
 import com.example.asus.newsdemo1.Http.Retrofit.RetrofitClient;
 import com.example.asus.newsdemo1.Model.NewsSummary;
@@ -44,7 +45,7 @@ public class HeadlineFragment extends Fragment implements SwipeRefreshLayout.OnR
     private List<NewsSummary> newsVerticalList;   //首页新闻的垂直方向上的列表内容
     List<NewsSummary.AdsEntity> newsHeadList;    //首页新闻水平轮换图
     private List<String> simpleDraweeViews;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    public  SwipeRefreshLayout swipeRefreshLayout;
 
     @Nullable
     @Override
@@ -59,6 +60,7 @@ public class HeadlineFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        swipeRefreshLayout.setRefreshing(true);
         swipeRefreshLayout.setColorSchemeResources(R.color.orange, R.color.green, R.color.blue);
         swipeRefreshLayout.setOnRefreshListener(this);
         simpleDraweeViews = new ArrayList<>();
@@ -74,6 +76,9 @@ public class HeadlineFragment extends Fragment implements SwipeRefreshLayout.OnR
                 if (swipeRefreshLayout.isRefreshing()) {
                     swipeRefreshLayout.setRefreshing(false);
                     Toast.makeText(getContext(), "刷新成功", Toast.LENGTH_SHORT).show();
+                }
+                if(MainActivity.progressDialogLoading.isShowing()){
+                    MainActivity.progressDialogLoading.dismiss();
                 }
                 Map<String, List<NewsSummary>> body = response.body();
                 newsHeadList = new ArrayList<NewsSummary.AdsEntity>();
