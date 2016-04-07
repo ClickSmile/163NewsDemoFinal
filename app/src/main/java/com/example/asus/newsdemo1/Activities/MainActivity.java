@@ -1,6 +1,7 @@
 package com.example.asus.newsdemo1.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -19,6 +20,7 @@ import com.example.asus.newsdemo1.Presenter.ContentFragmentAdapter;
 import com.example.asus.newsdemo1.R;
 import com.example.asus.newsdemo1.View.ContentFragment;
 import com.example.asus.newsdemo1.View.EntertainmentFragment;
+import com.example.asus.newsdemo1.View.ForumFragment;
 import com.example.asus.newsdemo1.View.HeadlineFragment;
 import com.example.asus.newsdemo1.View.JokeFragment;
 import com.example.asus.newsdemo1.View.MilitaryFragment;
@@ -43,8 +45,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private PhoneFragment fragmentPhone;
     private SocialFragment fragmentSocial;
     private MilitaryFragment fragmentMilitary;
-    public static ProgressDialog progressDialogLoading;
+    private ForumFragment fragmentForum;
 
+    public static ProgressDialog progressDialogLoading;
     private ContentFragmentAdapter fragmentAdapter;
 
     @Override
@@ -54,6 +57,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         inits();
         progressDialogLoading.setCancelable(false);
         progressDialogLoading.show();
+        Toast.makeText(MainActivity.this, "正在刷新最新新闻，请稍等...", Toast.LENGTH_LONG).show();
+
+//        floatingActionButton= (FloatingActionButton) findViewById(R.id.fab);
+//        floatingActionButton.setOnClickListener(this);
     }
 
     @Override
@@ -68,7 +75,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         tabsLayout= (TabLayout) this.findViewById(R.id.tabsLayoutContent);
         viewPager= (ViewPager) this.findViewById(R.id.viewPagerContent);
         progressDialogLoading = new ProgressDialog(MainActivity.this);
-        Toast.makeText(MainActivity.this, "正在刷新最新新闻，请稍等...", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -85,6 +91,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         fragmentPhone=new PhoneFragment();
         fragmentSocial=new SocialFragment();
         fragmentMilitary=new MilitaryFragment();
+        fragmentForum=new ForumFragment();
         List<String> titles=new ArrayList<>();
         titles.add("头条");
         titles.add("娱乐");
@@ -93,6 +100,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         titles.add("手机");
         titles.add("社会");
         titles.add("军事");
+        titles.add("论坛");
         titles.add("笑话");
         List<Fragment> fragments=new ArrayList<>();
         fragments.add(fragmentHeadline);
@@ -102,6 +110,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         fragments.add(fragmentPhone);
         fragments.add(fragmentSocial);
         fragments.add(fragmentMilitary);
+        fragments.add(fragmentForum);
         fragments.add(fragmentJoke);
         fragmentAdapter=new ContentFragmentAdapter(getSupportFragmentManager(),titles,fragments);
         viewPager.setAdapter(fragmentAdapter);
@@ -124,8 +133,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-//
-
+//            case R.id.fab:
+//                startActivity(new Intent(MainActivity.this,ShowCommitsAty.class));
+//                break;
         }
     }
 }

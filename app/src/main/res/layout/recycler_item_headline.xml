@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="130dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="4dp"
     android:gravity="center_vertical"
-    android:background="@drawable/bg_parent_rounded_corner"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:layout_marginTop="4dp"
+    android:layout_marginLeft="2dp"
+    android:layout_marginRight="2dp"
+    android:background="#e2dede">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -23,15 +25,17 @@
 
     <RelativeLayout
         android:layout_width="0dp"
+        android:layout_marginLeft="4dp"
         android:layout_height="match_parent"
         android:layout_weight="3"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp">
+        android:gravity="center">
 
         <TextView
+            android:layout_marginTop="6dp"
             android:id="@+id/textViewContentTitle"
             android:text="sfdsgdsgdsg"
-            android:textSize="24sp"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -42,6 +46,39 @@
             android:text="sfasfdsgdsgdfs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="18dp"
+            android:layout_below="@id/textViewContentSubtitle">
+
+            <ImageView
+                android:layout_marginTop="2dp"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/gentie"
+                android:layout_marginLeft="8dp"/>
+
+            <TextView
+                android:id="@+id/textViewContentReplyCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="2dp"
+                android:text="422343"/>
+
+            <TextView
+                android:layout_marginTop="4dp"
+                android:id="@+id/textViewContentLastModify"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="2012:23:23"
+                android:gravity="right"
+                />
+        </LinearLayout>
 
     </RelativeLayout>
 

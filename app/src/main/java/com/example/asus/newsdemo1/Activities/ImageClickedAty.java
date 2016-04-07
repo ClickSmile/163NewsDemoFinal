@@ -9,9 +9,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,13 +32,14 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  * Created by codekk on 2016/4/4.
  * Email:  645326280@qq.com
  */
-public class Image_Clicked_Aty extends AppCompatActivity {
+public class ImageClickedAty extends AppCompatActivity {
 
     private LinearLayout linearLayout;
     private PhotoViewAttacher mAttacher;
     private String imgUri;
     private String title;
     private static final int IMAGE_UPDATE = 0;
+    private static final int TEXTVIEW_DELAY_SHOW = 1;
 
     private TextView textViewTitle;
     private Handler mHandler = new Handler() {
@@ -49,12 +48,15 @@ public class Image_Clicked_Aty extends AppCompatActivity {
             switch (msg.what) {
                 case IMAGE_UPDATE:
                     Bitmap bitmap1 = (Bitmap) msg.obj;
-                    ImageView imageView1=new ImageView(Image_Clicked_Aty.this);
+                    ImageView imageView1=new ImageView(ImageClickedAty.this);
                     imageView1.setImageBitmap(bitmap1);
                     mAttacher = new PhotoViewAttacher(imageView1);
                     textViewTitle.setText(title);
                     imageView1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                     linearLayout.addView(imageView1);
+                    break;
+                case TEXTVIEW_DELAY_SHOW:   //延迟title的显示，让gif图加载完成后再显示标题
+                    textViewTitle.setText(title);
                     break;
             }
         }
@@ -80,7 +82,7 @@ public class Image_Clicked_Aty extends AppCompatActivity {
     }
 
     private void loadGif() {
-        SimpleDraweeView simpleDraweeView1 = new SimpleDraweeView(Image_Clicked_Aty.this);
+        SimpleDraweeView simpleDraweeView1 = new SimpleDraweeView(ImageClickedAty.this);
         simpleDraweeView1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 450));
         simpleDraweeView1.setImageURI(Uri.parse(imgUri));
         DraweeController draweeController =
@@ -90,7 +92,9 @@ public class Image_Clicked_Aty extends AppCompatActivity {
                         .build();
         simpleDraweeView1.setController(draweeController);
         linearLayout.addView(simpleDraweeView1);
-        textViewTitle.setText(title);
+        Message message = new Message();
+        message.what = TEXTVIEW_DELAY_SHOW;
+        mHandler.sendMessageDelayed(message,4*1000);  //延迟四秒显示textView内容
     }
 
     private void loadJpg() {

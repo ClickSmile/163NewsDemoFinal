@@ -35,6 +35,7 @@
         android:id="@+id/viewPagerContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#c2b8b8"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_scrollFlags="enterAlways|scroll">
     </android.support.v4.view.ViewPager>

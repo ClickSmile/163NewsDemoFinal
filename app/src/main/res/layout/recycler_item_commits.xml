@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:layout_marginLeft="2dp"
+    android:layout_marginRight="2dp"
+    android:layout_marginTop="4dp"
+    android:background="#d9d7d7"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/imageViewIconCommitsShow"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:placeholderImage="@drawable/image_error"
+            app:roundAsCircle="true" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="4dp"
+        android:layout_weight="5"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/textViewUsernameCommitsShow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="匿名网友"
+            android:textColor="#0f3779"
+            android:layout_marginTop="2dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewAddressCommitsShow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="sfasfdavdfcasd"
+            android:layout_below="@id/textViewUsernameCommitsShow"
+            android:textSize="14sp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/textViewContentCommitsShow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="sfasfdsgdsgdfs"
+            android:layout_below="@id/textViewAddressCommitsShow"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageViewDianzanCommitsShow"
+            android:layout_width="18dp"
+            android:layout_height="19dp"
+            android:layout_marginLeft="18dp"
+            android:layout_toLeftOf="@+id/textViewDianZanCountCommitsShow"
+            android:src="@drawable/dianzan" />
+
+        <TextView
+            android:id="@+id/textViewDianZanCountCommitsShow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="2dp"
+            android:textStyle="bold"
+            android:text="422343" />
+
+
+
+    </RelativeLayout>
+
+</LinearLayout>

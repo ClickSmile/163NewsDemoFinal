@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
-import com.example.asus.newsdemo1.Activities.Image_Clicked_Aty;
+import com.example.asus.newsdemo1.Activities.ImageClickedAty;
 import com.example.asus.newsdemo1.Http.Retrofit.RetrofitClient;
 import com.example.asus.newsdemo1.Model.NewsSummary;
 import com.example.asus.newsdemo1.Presenter.MyBannerViewholder;
@@ -123,7 +123,7 @@ public class SportFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                     public void onItemClick(int position) {
                         String title = newsHeadList.get(position).title;
                         String imgUri = newsHeadList.get(position).imgsrc;
-                        Intent intent = new Intent(getContext(), Image_Clicked_Aty.class);
+                        Intent intent = new Intent(getContext(), ImageClickedAty.class);
                         intent.putExtra("imgUri", imgUri);
                         intent.putExtra("HeadTitle", title);
                         startActivity(intent);

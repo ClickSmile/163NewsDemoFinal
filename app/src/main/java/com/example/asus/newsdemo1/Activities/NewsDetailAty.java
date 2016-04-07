@@ -3,16 +3,19 @@ package com.example.asus.newsdemo1.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.LoginFilter;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +42,7 @@ import retrofit2.Response;
  * Email:  645326280@qq.com
  */
 
-public class NewsDetailAty extends AppCompatActivity {
+public class NewsDetailAty extends AppCompatActivity implements View.OnClickListener{
     private TextView textViewTitle;
     private TextView textViewContent;
     private String postId;
@@ -48,6 +51,15 @@ public class NewsDetailAty extends AppCompatActivity {
     private int textViewCount = 0;
     private List<NewsDetail.ImgEntity> imgs;
     private List<String> bodysList;
+
+    private ImageView imageViewBottom;
+    private TextView textViewBottomCount;
+    private String replyCount;
+
+    private LinearLayout linearLayoutBottom;
+
+    //查看评论要用的参数
+    private String replyBoard=null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,13 +70,16 @@ public class NewsDetailAty extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         textViewTitle = (TextView) findViewById(R.id.textViewDetailTitle);
-        textViewContent = (TextView) findViewById(R.id.textViewDetailContent);
         postId = getIntent().getStringExtra("postId");
         title = getIntent().getStringExtra("title");
+        replyCount = getIntent().getStringExtra("replyCount");
+        imageViewBottom= (ImageView) findViewById(R.id.imageViewBottomViewPinglun);
+        textViewBottomCount= (TextView) findViewById(R.id.textViewBottomViewCount);
+        linearLayoutBottom= (LinearLayout) findViewById(R.id.linearLayoutBottom);
         Init(postId);
     }
 
-    private void Init(String postId) {
+    private void Init(final String postId) {
         Call<Map<String, NewsDetail>> newsDetail = RetrofitClient.getService().getNewsDetail(postId);
         newsDetail.enqueue(new Callback<Map<String, NewsDetail>>() {
             @Override
@@ -72,34 +87,35 @@ public class NewsDetailAty extends AppCompatActivity {
                 LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayoutDetail);
                 Map<String, NewsDetail> body = response.body();
                 for (Map.Entry<String, NewsDetail> entry : body.entrySet()) {
+                    NewsDetail d=entry.getValue();
+                    replyBoard=d.replyBoard;
                     imgs = entry.getValue().img;
-                    if (null == imgs || imgs.isEmpty()) {
-                        showDialog();
-
+                    imageViewCount = imgs.size();
+                    textViewTitle.setText(title);
+                    bodysList = SimpleUtils.makeDetailBodyToList(entry.getValue().body.toString());
+                    textViewCount = bodysList.size();
+                    if (textViewCount == 1) {  //表示原网页中没有图片
+                        TextView textView = new TextView(getApplicationContext());
+                        textView.setText(Html.fromHtml(entry.getValue().body.toString()));
+                        textView.setTextColor(Color.BLACK);
+                        textView.setTextSize(24);
+                        linearLayout.addView(textView);
                     } else {
-                        imageViewCount = imgs.size();
-                        textViewTitle.setText(title);
-                        bodysList = SimpleUtils.makeDetailBodyToList(entry.getValue().body.toString());
-                        textViewCount = bodysList.size();
-                        if (textViewCount == 1) {  //表示原网页中没有图片
-                            TextView textView = new TextView(getApplicationContext());
-                            textView.setText(Html.fromHtml(entry.getValue().body.toString()));
-                            textView.setTextColor(Color.BLACK);
-                            textView.setTextSize(24);
-                            linearLayout.addView(textView);
-                        } else {
-                            TextView[] textViews = initTextViews(getApplicationContext());
-                            SimpleDraweeView[] simpleDraweeViews = initImgs(getApplicationContext());
-                            for (int i = 0; i < Math.min(imageViewCount, textViewCount); i++) {
-                                linearLayout.addView(textViews[i]);
-                                linearLayout.addView(simpleDraweeViews[i]);
-                            }
-                            for (int i = Math.min(imageViewCount, textViewCount); i < Math.max(imageViewCount, textViewCount); i++) {
-                                linearLayout.addView(textViews[i]);
-                            }
+                        TextView[] textViews = initTextViews(getApplicationContext());
+                        SimpleDraweeView[] simpleDraweeViews = initImgs(getApplicationContext());
+                        for (int i = 0; i < Math.min(imageViewCount, textViewCount); i++) {
+                            linearLayout.addView(textViews[i]);
+                            linearLayout.addView(simpleDraweeViews[i]);
+                        }
+                        for (int i = Math.min(imageViewCount, textViewCount); i < Math.max(imageViewCount, textViewCount); i++) {
+                            linearLayout.addView(textViews[i]);
                         }
                     }
                 }
+                textViewBottomCount.setText(replyCount);
+                textViewBottomCount.setOnClickListener(NewsDetailAty.this);
+                imageViewBottom.setOnClickListener(NewsDetailAty.this);
+                linearLayoutBottom.setOnClickListener(NewsDetailAty.this);
             }
 
             @Override
@@ -123,10 +139,10 @@ public class NewsDetailAty extends AppCompatActivity {
         return textViews;
     }
 
-    private void showDialog(){
+    private void showDialog() {
         final MaterialDialog dialog = new MaterialDialog.Builder(NewsDetailAty.this)
                 .title("提示")
-                .content("当前版本不支持此种类型的新闻，敬请期待！！")
+                .content("当前版本不支持此种类型的新闻，敬请期待！！也许是没网")
                 .positiveText("我知道了")
                 .cancelable(false)
                 .build();
@@ -152,12 +168,11 @@ public class NewsDetailAty extends AppCompatActivity {
                             .build();
             SimpleDraweeView simpleDraweeView1 = new SimpleDraweeView(applicationContext);
             simpleDraweeView1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 380));
-//            simpleDraweeView1.setScaleType(ImageView.ScaleType.FIT_XY);
             simpleDraweeView1.setImageURI(Uri.parse(imgs.get(i).src));
             simpleDraweeView1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(applicationContext, Image_Clicked_Aty.class);
+                    Intent intent = new Intent(applicationContext, ImageClickedAty.class);
                     intent.putExtra("imgUri", imgs.get(index).src);
                     intent.putExtra("HeadTitle", title);
                     startActivity(intent);
@@ -176,5 +191,17 @@ public class NewsDetailAty extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.linearLayoutBottom:
+                Intent intent=new Intent(NewsDetailAty.this,ShowCommitsAty.class);
+                intent.putExtra("replayBoard",replyBoard);
+                intent.putExtra("postId",postId);
+                startActivity(intent);
+                break;
+        }
     }
 }

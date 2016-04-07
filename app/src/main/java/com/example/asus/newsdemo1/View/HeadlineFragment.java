@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
-import com.example.asus.newsdemo1.Activities.Image_Clicked_Aty;
+import com.example.asus.newsdemo1.Activities.ImageClickedAty;
 import com.example.asus.newsdemo1.Activities.MainActivity;
 import com.example.asus.newsdemo1.Presenter.RecyclerHeadlineAdapter;
 import com.example.asus.newsdemo1.Http.Retrofit.RetrofitClient;
@@ -84,6 +84,14 @@ public class HeadlineFragment extends Fragment implements SwipeRefreshLayout.OnR
                 newsHeadList = new ArrayList<NewsSummary.AdsEntity>();
                 for (Map.Entry<String, List<NewsSummary>> entry : body.entrySet()) {
                     newsSummaries = entry.getValue();
+//
+//                    for(NewsSummary s:newsSummaries){
+////                        Log.d("KKLog","HeadlineFragment s.replyCount"+s.replyCount);
+////                        Log.d("KKLog","HeadlineFragment s.lmodify"+s.lmodify);
+////                        Log.d("KKLog","HeadlineFragment s.ptime"+s.ptime);
+////                        Log.d("KKLog","HeadlineFragment s.votecount"+s.votecount);
+//                    }
+
                     newsVerticalList = SimpleUtils.makeNewsList(newsSummaries);
                     newsHeadList = newsSummaries.get(0).ads;
                     for (NewsSummary.AdsEntity a : newsHeadList) {
@@ -121,7 +129,7 @@ public class HeadlineFragment extends Fragment implements SwipeRefreshLayout.OnR
                     public void onItemClick(int position) {
                         String title = newsHeadList.get(position).title;
                         String imgUri = newsHeadList.get(position).imgsrc;
-                        Intent intent = new Intent(getContext(), Image_Clicked_Aty.class);
+                        Intent intent = new Intent(getContext(), ImageClickedAty.class);
                         intent.putExtra("imgUri", imgUri);
                         intent.putExtra("HeadTitle", title);
                         startActivity(intent);

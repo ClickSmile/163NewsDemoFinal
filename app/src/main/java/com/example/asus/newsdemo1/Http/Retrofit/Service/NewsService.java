@@ -25,4 +25,6 @@ public interface NewsService {
 
     @GET("nc/article/{postId}/full.html")
     Call<Map<String, NewsDetail>> getNewsDetail(@Path("postId") String postId);
+
+
 }

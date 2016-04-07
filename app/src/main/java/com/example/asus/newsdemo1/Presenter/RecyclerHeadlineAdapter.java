@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,12 +44,15 @@ public class RecyclerHeadlineAdapter extends RecyclerView.Adapter<RecyclerHeadli
         holder.imageViewIcon.setImageURI(Uri.parse(news.get(position).imgsrc));
         holder.textViewTitle.setText(news.get(position).title);
         holder.textViewSubtitle.setText(news.get(position).digest);
+        holder.textViewReplyCount.setText(news.get(position).replyCount+"");
+        holder.textViewLastModify.setText(news.get(position).lmodify+"");
         holder.itemView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, NewsDetailAty.class);
                 intent.putExtra("postId", news.get(position).postid);
                 intent.putExtra("title", news.get(position).title);
+                intent.putExtra("replyCount", news.get(position).replyCount+"");
                 context.startActivity(intent);
             }
         });
@@ -63,6 +67,8 @@ public class RecyclerHeadlineAdapter extends RecyclerView.Adapter<RecyclerHeadli
         private SimpleDraweeView imageViewIcon;
         private TextView textViewTitle;
         private TextView textViewSubtitle;
+        private TextView textViewReplyCount;
+        private TextView textViewLastModify;
         private View itemView1;
 
         public MyViewHolder(View itemView) {
@@ -71,6 +77,8 @@ public class RecyclerHeadlineAdapter extends RecyclerView.Adapter<RecyclerHeadli
             imageViewIcon = (SimpleDraweeView) itemView.findViewById(R.id.imageViewContentItemIcon);
             textViewTitle = (TextView) itemView.findViewById(R.id.textViewContentTitle);
             textViewSubtitle = (TextView) itemView.findViewById(R.id.textViewContentSubtitle);
+            textViewReplyCount= (TextView) itemView.findViewById(R.id.textViewContentReplyCount);
+            textViewLastModify= (TextView) itemView.findViewById(R.id.textViewContentLastModify);
         }
     }
 }

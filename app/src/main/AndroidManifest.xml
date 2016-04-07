@@ -19,12 +19,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.Image_Clicked_Aty"
+        <activity android:name=".Activities.ImageClickedAty"
             android:label="图片详情"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Activities.NewsDetailAty"
             android:label="新闻详情"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".Activities.ShowCommitsAty"
+            android:label="评论"/>
     </application>
 
 </manifest>

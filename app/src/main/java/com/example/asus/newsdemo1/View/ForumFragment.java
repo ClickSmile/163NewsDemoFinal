@@ -31,7 +31,7 @@ import retrofit2.Response;
  * Created by codekk on 2016/4/6.
  * Email:  645326280@qq.com
  */
-public class JokeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class ForumFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private ConvenientBanner<String> convenientBanner;
     private RecyclerHeadlineAdapter adapter;
     private RecyclerView recyclerView;
@@ -62,7 +62,7 @@ public class JokeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     private void News1() {
-        Call<Map<String, List<NewsSummary>>> newsList = RetrofitClient.getService().getNewsList("list", "T1350383429665", 0);
+        Call<Map<String, List<NewsSummary>>> newsList = RetrofitClient.getService().getNewsList("list", "T1349837670307", 0);
         newsList.enqueue(new Callback<Map<String, List<NewsSummary>>>() {
             @Override
             public void onResponse(Call<Map<String, List<NewsSummary>>> call, Response<Map<String, List<NewsSummary>>> response) {
@@ -80,7 +80,6 @@ public class JokeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     if(newsSummary.imgextra==null || newsSummary.imgextra.isEmpty()){
                         Log.d("KKLog", "News2 newsSummary.imgextra is null or empty!!");
                     }
-
                 }
                 adapter = new RecyclerHeadlineAdapter(getContext(), newsVerticalList);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

@@ -1,47 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolBarNewsDetail"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimaryDark"/>
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-    <ScrollView
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolBarNewsDetail"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimaryDark"
+            app:layout_scrollFlags="enterAlways|scroll" />
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v4.widget.NestedScrollView
         android:id="@+id/scrollViewDetail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:id="@+id/linearLayoutDetail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
             <TextView
                 android:id="@+id/textViewDetailTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="加载中"
+                android:textColor="#000000"
                 android:textSize="28sp"
-                android:textStyle="bold"
-                android:textColor="#000000"/>
-
-            <TextView
-                android:id="@+id/textViewDetailContent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="38dp"
-                android:textSize="18sp"
-                android:gravity="center" />
+                android:textStyle="bold" />
         </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
-    </ScrollView>
+    <LinearLayout
+        android:id="@+id/linearLayoutBottom"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom"
+        android:background="#b7baae"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_behavior="com.example.asus.newsdemo1.Model.FooterBehavior">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
+            android:text="查看评论"
+            android:textColor="@android:color/white" />
 
-</LinearLayout>
+        <ImageView
+            android:id="@+id/imageViewBottomViewPinglun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/bottom_view_pinglun" />
+
+        <TextView
+            android:id="@+id/textViewBottomViewCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:text="34332"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

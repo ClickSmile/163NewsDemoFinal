@@ -6,6 +6,9 @@ package com.example.asus.newsdemo1.Http.Retrofit;
  */
 public class Api {
 
+    public static final String COMMITS_BASE_URI = "http://comment.api.163.com/";
+
+
     public static final String NETEAST_HOST = "http://c.m.163.com/";
     public static final String END_URL = "-20.html";
     public static final String ENDDETAIL_URL = "/full.html";

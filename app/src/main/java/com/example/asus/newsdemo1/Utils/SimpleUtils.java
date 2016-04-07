@@ -15,8 +15,10 @@ public class SimpleUtils {
         List<NewsSummary> news = new ArrayList<>();
         for (NewsSummary n : news1) {
             if (n.hasImg == 0 && n.hasHead == 0) {
-                if(n.digest!=null && !("".equals(n.digest)) && !(" ".equals(n.digest)) )
-                news.add(n);
+                if (n.digest != null && !("".equals(n.digest)) && !(" ".equals(n.digest)))
+                    if (n.postid != null) {
+                        news.add(n);
+                    }
             }
         }
         return news;
