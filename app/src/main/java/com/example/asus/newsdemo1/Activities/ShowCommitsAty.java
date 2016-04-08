@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.example.asus.newsdemo1.Http.Retrofit.RetrofitClient;
 import com.example.asus.newsdemo1.Model.Commits;
+import com.example.asus.newsdemo1.Presenter.DividerItemDecoration;
 import com.example.asus.newsdemo1.Presenter.RecyclerCommitAdapter;
 import com.example.asus.newsdemo1.R;
 
@@ -30,6 +31,7 @@ public class ShowCommitsAty extends AppCompatActivity {
 
     private String replyBoard=null;
     private String postId=null;
+    private int replyCount;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,13 +41,13 @@ public class ShowCommitsAty extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         replyBoard=getIntent().getStringExtra("replayBoard");
         postId=getIntent().getStringExtra("postId");
-
+        replyCount=Integer.parseInt(getIntent().getStringExtra("replyCount"));
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewCommitsShow);
         recyclerView.setNestedScrollingEnabled(false);
-        final Call<Commits> commits = RetrofitClient.getServiceCommits().getCommitsList(replyBoard, postId, 20);
+        int count=replyCount>20?20:replyCount;
+        final Call<Commits> commits = RetrofitClient.getServiceCommits().getCommitsList(replyBoard, postId,count);
         commits.enqueue(new Callback<Commits>() {
             @Override
             public void onResponse(Call<Commits> call, Response<Commits> response) {
@@ -53,6 +55,7 @@ public class ShowCommitsAty extends AppCompatActivity {
                 List<Commits.HotPost> posts = body.hotPosts;
                 adapter = new RecyclerCommitAdapter(ShowCommitsAty.this, posts);
                 recyclerView.setLayoutManager(new LinearLayoutManager(ShowCommitsAty.this));
+                recyclerView.addItemDecoration(new DividerItemDecoration(ShowCommitsAty.this, DividerItemDecoration.VERTICAL_LIST));
                 recyclerView.setAdapter(adapter);
             }
 

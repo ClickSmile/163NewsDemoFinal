@@ -1,11 +1,9 @@
 package com.example.asus.newsdemo1.Activities;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -18,7 +16,6 @@ import android.widget.Toast;
 import com.example.asus.newsdemo1.Base.BaseActivity;
 import com.example.asus.newsdemo1.Presenter.ContentFragmentAdapter;
 import com.example.asus.newsdemo1.R;
-import com.example.asus.newsdemo1.View.ContentFragment;
 import com.example.asus.newsdemo1.View.EntertainmentFragment;
 import com.example.asus.newsdemo1.View.ForumFragment;
 import com.example.asus.newsdemo1.View.HeadlineFragment;
@@ -58,9 +55,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         progressDialogLoading.setCancelable(false);
         progressDialogLoading.show();
         Toast.makeText(MainActivity.this, "正在刷新最新新闻，请稍等...", Toast.LENGTH_LONG).show();
-
-//        floatingActionButton= (FloatingActionButton) findViewById(R.id.fab);
-//        floatingActionButton.setOnClickListener(this);
     }
 
     @Override

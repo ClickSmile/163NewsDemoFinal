@@ -2,33 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="130dp"
+    android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:layout_marginTop="4dp"
     android:layout_marginLeft="2dp"
-    android:layout_marginRight="2dp"
-    android:background="#e2dede">
+    android:layout_marginRight="2dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="center">
-
+        >
         <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_marginTop="6dp"
             android:id="@+id/imageViewContentItemIcon"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"
+            android:scaleType="fitCenter"
+            android:layout_marginLeft="4dp"
             app:placeholderImage="@drawable/image_error"/>
-    </LinearLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_marginLeft="4dp"
         android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:gravity="center">
+        android:layout_weight="3">
 
         <TextView
             android:layout_marginTop="6dp"
@@ -36,6 +37,7 @@
             android:text="sfdsgdsgdsg"
             android:textSize="18sp"
             android:textStyle="bold"
+            android:layout_marginLeft="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -44,6 +46,8 @@
             android:id="@+id/textViewContentSubtitle"
             android:layout_marginTop="4dp"
             android:text="sfasfdsgdsgdfs"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -52,21 +56,24 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="18dp"
+            android:layout_alignParentBottom="true"
             android:layout_below="@id/textViewContentSubtitle">
 
             <ImageView
-                android:layout_marginTop="2dp"
                 android:layout_width="14dp"
                 android:layout_height="14dp"
-                android:src="@drawable/gentie"
-                android:layout_marginLeft="8dp"/>
+                android:src="@drawable/pinglun"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="4dp"/>
 
             <TextView
                 android:id="@+id/textViewContentReplyCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
-                android:layout_marginTop="2dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="9dp"
                 android:text="422343"/>
 
             <TextView
@@ -76,7 +83,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="2012:23:23"
+                android:layout_gravity="bottom"
                 android:gravity="right"
+                android:layout_marginBottom="8dp"
+                android:layout_marginRight="8dp"
                 />
         </LinearLayout>
 

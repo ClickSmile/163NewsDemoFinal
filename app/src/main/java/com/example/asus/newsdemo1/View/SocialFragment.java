@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.example.asus.newsdemo1.Http.Retrofit.RetrofitClient;
 import com.example.asus.newsdemo1.Model.NewsSummary;
+import com.example.asus.newsdemo1.Presenter.DividerItemDecoration;
 import com.example.asus.newsdemo1.Presenter.RecyclerHeadlineAdapter;
 import com.example.asus.newsdemo1.R;
 import com.example.asus.newsdemo1.Utils.SimpleUtils;
@@ -58,6 +59,7 @@ public class SocialFragment extends Fragment implements SwipeRefreshLayout.OnRef
         swipeRefreshLayout.setOnRefreshListener(this);
         simpleDraweeViews = new ArrayList<>();
         recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         News1();
     }
 

@@ -55,7 +55,6 @@ public class FooterBehavior extends CoordinatorLayout.Behavior<View> {
             public void onAnimationStart(Animator animator) {
 
             }
-
             @Override
             public void onAnimationEnd(Animator animator) {
                 view.setVisibility(View.GONE);
@@ -99,6 +98,5 @@ public class FooterBehavior extends CoordinatorLayout.Behavior<View> {
             }
         });
         animator.start();
-
     }
 }

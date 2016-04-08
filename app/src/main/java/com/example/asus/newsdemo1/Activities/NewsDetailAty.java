@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.LoginFilter;
@@ -85,6 +86,7 @@ public class NewsDetailAty extends AppCompatActivity implements View.OnClickList
             @Override
             public void onResponse(Call<Map<String, NewsDetail>> call, Response<Map<String, NewsDetail>> response) {
                 LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayoutDetail);
+                linearLayout.setPadding(4,10,4,4);
                 Map<String, NewsDetail> body = response.body();
                 for (Map.Entry<String, NewsDetail> entry : body.entrySet()) {
                     NewsDetail d=entry.getValue();
@@ -104,10 +106,16 @@ public class NewsDetailAty extends AppCompatActivity implements View.OnClickList
                         TextView[] textViews = initTextViews(getApplicationContext());
                         SimpleDraweeView[] simpleDraweeViews = initImgs(getApplicationContext());
                         for (int i = 0; i < Math.min(imageViewCount, textViewCount); i++) {
+                            textViews[i].setPadding(0,10,0,8);
                             linearLayout.addView(textViews[i]);
                             linearLayout.addView(simpleDraweeViews[i]);
+                            ViewGroup.LayoutParams pam=  simpleDraweeViews[i].getLayoutParams();
+                            pam.height=Integer.parseInt(imgs.get(i).pixel.substring(0,3));
+                            pam.width=pam.MATCH_PARENT;
+                            simpleDraweeViews[i].setLayoutParams(pam);
                         }
                         for (int i = Math.min(imageViewCount, textViewCount); i < Math.max(imageViewCount, textViewCount); i++) {
+                            textViews[i].setPadding(0,14,0,8);
                             linearLayout.addView(textViews[i]);
                         }
                     }
@@ -167,7 +175,6 @@ public class NewsDetailAty extends AppCompatActivity implements View.OnClickList
                             .setAutoPlayAnimations(true) // 设置加载图片完成后是否直接进行播放
                             .build();
             SimpleDraweeView simpleDraweeView1 = new SimpleDraweeView(applicationContext);
-            simpleDraweeView1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 380));
             simpleDraweeView1.setImageURI(Uri.parse(imgs.get(i).src));
             simpleDraweeView1.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -200,6 +207,7 @@ public class NewsDetailAty extends AppCompatActivity implements View.OnClickList
                 Intent intent=new Intent(NewsDetailAty.this,ShowCommitsAty.class);
                 intent.putExtra("replayBoard",replyBoard);
                 intent.putExtra("postId",postId);
+                intent.putExtra("replyCount",replyCount);
                 startActivity(intent);
                 break;
         }

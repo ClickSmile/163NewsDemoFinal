@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
@@ -18,6 +19,8 @@ import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.example.asus.newsdemo1.Activities.ImageClickedAty;
 import com.example.asus.newsdemo1.Activities.MainActivity;
+import com.example.asus.newsdemo1.Presenter.DividerItemDecoration;
+import com.example.asus.newsdemo1.Presenter.MyOnScrollListener;
 import com.example.asus.newsdemo1.Presenter.RecyclerHeadlineAdapter;
 import com.example.asus.newsdemo1.Http.Retrofit.RetrofitClient;
 import com.example.asus.newsdemo1.Model.NewsSummary;
@@ -65,6 +68,7 @@ public class HeadlineFragment extends Fragment implements SwipeRefreshLayout.OnR
         swipeRefreshLayout.setOnRefreshListener(this);
         simpleDraweeViews = new ArrayList<>();
         recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         News1();
     }
 
@@ -84,14 +88,6 @@ public class HeadlineFragment extends Fragment implements SwipeRefreshLayout.OnR
                 newsHeadList = new ArrayList<NewsSummary.AdsEntity>();
                 for (Map.Entry<String, List<NewsSummary>> entry : body.entrySet()) {
                     newsSummaries = entry.getValue();
-//
-//                    for(NewsSummary s:newsSummaries){
-////                        Log.d("KKLog","HeadlineFragment s.replyCount"+s.replyCount);
-////                        Log.d("KKLog","HeadlineFragment s.lmodify"+s.lmodify);
-////                        Log.d("KKLog","HeadlineFragment s.ptime"+s.ptime);
-////                        Log.d("KKLog","HeadlineFragment s.votecount"+s.votecount);
-//                    }
-
                     newsVerticalList = SimpleUtils.makeNewsList(newsSummaries);
                     newsHeadList = newsSummaries.get(0).ads;
                     for (NewsSummary.AdsEntity a : newsHeadList) {
@@ -100,8 +96,15 @@ public class HeadlineFragment extends Fragment implements SwipeRefreshLayout.OnR
                     initBanner();
                 }
                 adapter = new RecyclerHeadlineAdapter(getContext(), newsVerticalList);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                recyclerView.setLayoutManager(linearLayoutManager);
                 recyclerView.setAdapter(adapter);
+                recyclerView.addOnScrollListener(new MyOnScrollListener(new MyOnScrollListener.ScrollCallback() {
+                    @Override
+                    public void onBottomLoading() {
+
+                    }
+                }));
             }
 
             @Override

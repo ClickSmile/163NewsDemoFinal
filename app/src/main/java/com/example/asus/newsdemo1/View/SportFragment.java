@@ -19,6 +19,7 @@ import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.example.asus.newsdemo1.Activities.ImageClickedAty;
 import com.example.asus.newsdemo1.Http.Retrofit.RetrofitClient;
 import com.example.asus.newsdemo1.Model.NewsSummary;
+import com.example.asus.newsdemo1.Presenter.DividerItemDecoration;
 import com.example.asus.newsdemo1.Presenter.MyBannerViewholder;
 import com.example.asus.newsdemo1.Presenter.RecyclerHeadlineAdapter;
 import com.example.asus.newsdemo1.R;
@@ -63,6 +64,7 @@ public class SportFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         swipeRefreshLayout.setOnRefreshListener(this);
         simpleDraweeViews = new ArrayList<>();
         recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         News1();
     }
 
