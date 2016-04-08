@@ -26,8 +26,10 @@
 
        #### 4：加入(`查看评论`)的功能,晚上来优化评论界面出现重叠字体的问题
                                                   edit at:(`2016年4月7日14:08:20`)
+                                                  
+                                                  
 
-       #### 5：敬请期待!
+       #### 5：RecyclerView的setNestedScrollingEnabled()方法会导致onScrollListener中的onScrollStateChanged方法失效
 
        ## PS： 目前只是为了实现功能。UI后期处理
      
